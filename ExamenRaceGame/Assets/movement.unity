@@ -460,6 +460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 50
   turnspeed: 10
+  gravityMultiplier: 1
 --- !u!1 &729367482
 GameObject:
   m_ObjectHideFlags: 0
