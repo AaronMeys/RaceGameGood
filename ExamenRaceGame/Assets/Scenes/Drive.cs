@@ -7,6 +7,7 @@ public class Drive : MonoBehaviour
 private Rigidbody rb;
 public float speed;
 public float turnspeed;
+public float gravityMultiplier;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +18,13 @@ public float turnspeed;
     // Update is called once per frame
     void FixedUpdate()
     {
+        Move();
+        Turn();
+        Gravity();
+    }
+
+    void Move()
+    {
         if (Input.GetKey(KeyCode.W))
         {
             rb.AddRelativeForce(Vector3.forward * speed);
@@ -25,8 +33,14 @@ public float turnspeed;
         {
             rb.AddRelativeForce(-Vector3.forward * speed);
         }
-        
-        if (Input.GetKey(KeyCode.D))
+        Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
+        localVelocity.x = 0;
+        rb.velocity = transform.TransformDirection(localVelocity);
+    }
+
+    void Turn()
+    {
+         if (Input.GetKey(KeyCode.D))
         {
             rb.AddTorque(Vector3.up * turnspeed);
         }
@@ -34,5 +48,10 @@ public float turnspeed;
         {
             rb.AddTorque(-Vector3.up * turnspeed);
         }
+    }
+
+    void Gravity()
+    {
+        rb.AddForce(Vector3.down * gravityMultiplier * 10);
     }
 }
