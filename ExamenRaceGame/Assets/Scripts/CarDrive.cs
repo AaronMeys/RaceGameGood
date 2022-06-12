@@ -5,9 +5,12 @@ using UnityEngine;
 public class CarDrive : MonoBehaviour
 {
     public Rigidbody rb;
-    public float Forwardaccel = 8f,reverseaccel =4f,maxspeed = 50f,turnspeed = 180;
+    public float Forwardaccel = 8f,reverseaccel =4f,maxspeed = 50f,turnspeed = 180, gravityForce = 10f, dragonground = 3f;
     private float speedinput ,turninput;
-
+    private bool grounded;
+    public LayerMask whatIsGround;
+    public float groundray = .5f;
+    public Transform groundRayPoint;
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +22,8 @@ public class CarDrive : MonoBehaviour
     void Update()
     {
         speedinput = 0f;
-        if (Input.GetAxis("Vertical") > 0){
+        if (Input.GetAxis("Vertical") > 0)
+        {
             speedinput = Input.GetAxis("Vertical") * Forwardaccel * 1000f;
         }
         else if (Input.GetAxis("Vertical") < 0)
@@ -28,17 +32,37 @@ public class CarDrive : MonoBehaviour
         }
         
         turninput = Input.GetAxis("Horizontal");
-        
-        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, turninput* turnspeed * Time.deltaTime, 0f));
-        
+        if(grounded)
+        {
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, turninput* turnspeed * Time.deltaTime * Input.GetAxis("Vertical"), 0f));
+        }
         transform.position = rb.transform.position;
     }
 
     void FixedUpdate()
     {
-        if(Mathf.Abs(speedinput) > 0)
+        grounded = false;
+        RaycastHit hit;
+
+        if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundray, whatIsGround))
         {
-            rb.AddForce(transform.forward * speedinput);
+            grounded = true;
+
+            transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;  
+        }
+        if (grounded)
+        {
+            rb.drag = dragonground;
+
+            if(Mathf.Abs(speedinput) > 0)
+            {
+                rb.AddForce(transform.forward * speedinput);
+            }
+        }
+        else
+        {
+            rb.drag = 0.1f;
+            rb.AddForce(Vector3.up * -gravityForce * 100);
         }
     }
 
