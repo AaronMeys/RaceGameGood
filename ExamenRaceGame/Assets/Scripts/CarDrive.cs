@@ -6,7 +6,7 @@ public class CarDrive : MonoBehaviour
 {
     public Rigidbody rb;
     public float Forwardaccel = 8f,reverseaccel =4f,maxspeed = 50f,turnspeed = 180, gravityForce = 10f, dragonground = 3f;
-    private float speedinput ,turninput;
+    public float speedinput ,turninput;
     private bool grounded;
     public LayerMask whatIsGround;
     public float groundray = .5f;
