@@ -27700,6 +27700,7 @@ MonoBehaviour:
   turnspeed: 180
   gravityForce: 10
   dragonground: 3
+  rotationDamp: 7
   speedinput: 0
   turninput: 0
   whatIsGround:

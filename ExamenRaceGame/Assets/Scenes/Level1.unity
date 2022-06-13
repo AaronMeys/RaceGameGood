@@ -5370,10 +5370,11 @@ MonoBehaviour:
   rb: {fileID: 1728596807}
   Forwardaccel: 5
   reverseaccel: 2
-  maxspeed: 50
+  maxspeed: 500
   turnspeed: 180
   gravityForce: 10
   dragonground: 3
+  rotationDamp: 8
   speedinput: 0
   turninput: 0
   whatIsGround:
@@ -5615,7 +5616,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -389.7, y: -156}
+  m_AnchoredPosition: {x: -323, y: -140}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1161418513
