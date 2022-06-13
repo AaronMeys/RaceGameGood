@@ -5,7 +5,7 @@ using UnityEngine;
 public class CarDrive : MonoBehaviour
 {
     public Rigidbody rb;
-    public float Forwardaccel = 8f,reverseaccel =4f,maxspeed = 50f,turnspeed = 180, gravityForce = 10f, dragonground = 3f;
+    public float Forwardaccel = 8f,reverseaccel =4f,maxspeed = 50f,turnspeed = 180, gravityForce = 10f, dragonground = 3f, rotationDamp = 3f;
     public float speedinput ,turninput;
     private bool grounded;
     public LayerMask whatIsGround;
@@ -48,7 +48,8 @@ public class CarDrive : MonoBehaviour
         {
             grounded = true;
 
-            transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;  
+            Quaternion rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationDamp * Time.deltaTime);
         }
         if (grounded)
         {
