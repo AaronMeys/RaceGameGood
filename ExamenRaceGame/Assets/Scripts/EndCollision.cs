@@ -7,7 +7,7 @@ public class EndCollision : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        SceneManager.LoadScene(4); 
+        SceneManager.LoadScene(3); 
     }
 
 

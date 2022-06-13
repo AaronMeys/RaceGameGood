@@ -9,6 +9,7 @@ public class timescript : MonoBehaviour
     public Text timeText;
     private float timer;
     private double inttime;
+    private int minutes = 0;
 
 
     // Start is called before the first frame update
@@ -22,6 +23,15 @@ public class timescript : MonoBehaviour
     {
         timer = timer + Time.deltaTime;
         inttime = (double)timer;
-        timeText.text = "time: " + inttime.ToString("n2");
+        if (timer > 59.99)
+        {
+            minutes++;
+            timer = 0;
+        }
+        timeText.text = minutes.ToString() + "\"" + inttime.ToString("n2");
+
+        GlobalVariable.finalMinutes = minutes;
+        GlobalVariable.finalSeconds = inttime;
+
     }
 }

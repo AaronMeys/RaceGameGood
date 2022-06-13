@@ -9,7 +9,7 @@ public class Speedscript : MonoBehaviour
     public Text speedText;
     public CarDrive speed;
     private int intSpeed;
-
+    private string endSpeed;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +20,7 @@ public class Speedscript : MonoBehaviour
     void Update()
     {
         intSpeed = (int)speed.speedinput /10;
-        speedText.text = "KPH " + intSpeed.ToString();
+        endSpeed = intSpeed.ToString();
+        speedText.text = "KPH " + endSpeed.ToUpper();
     }
 }
