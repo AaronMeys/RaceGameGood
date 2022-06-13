@@ -19,7 +19,7 @@ public class Speedscript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        intSpeed = (int)speed.speedinput / 100;
+        intSpeed = (int)speed.speedinput /10;
         speedText.text = "KPH " + intSpeed.ToString();
     }
 }

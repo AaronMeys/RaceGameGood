@@ -9,14 +9,18 @@ public class playaudio : MonoBehaviour
 
     void Update()
     {
-        if (car.speedinput != 0)
+        if ( (Input.GetKeyDown(KeyCode.W)) || (Input.GetKeyDown(KeyCode.S)) )
         {
             if (!caraudio.isPlaying)
             {
                 caraudio.Play();
 
             }
-            
+            else
+            {
+                caraudio.Stop();
+            }
+
         }
     }
 }
