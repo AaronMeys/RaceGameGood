@@ -5,10 +5,11 @@ using UnityEngine;
 public class CarDrive : MonoBehaviour
 {
     public Rigidbody rb;
-    public float Forwardaccel = 8f,reverseaccel =4f,maxspeed = 50f,turnspeed = 180, gravityForce = 10f, dragonground = 3f, rotationDamp = 3f;
+    public float Forwardaccel = 8f,reverseaccel =4f,maxspeed = 50f,turnspeed = 180, gravityForce = 10f, dragonground = 3f, rotationDamp = 3f, boostDuration = 5f,boostpower = 2f;
+    private float accelvar, boost;
     public float speedinput ,turninput;
-    private bool grounded;
-    public LayerMask whatIsGround;
+    private bool grounded, turbo;
+    public LayerMask whatIsGround, whatIsTurbo;
     public float groundray = .5f;
     public Transform groundRayPoint;
 
@@ -17,6 +18,7 @@ public class CarDrive : MonoBehaviour
     void Start()
     {
         rb.transform.parent = null;
+        accelvar = Forwardaccel;
     }
 
     // Update is called once per frame
@@ -33,7 +35,7 @@ public class CarDrive : MonoBehaviour
         }
         
         turninput = Input.GetAxis("Horizontal");
-        if(grounded)
+        if(grounded|| turbo)
         {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, turninput* turnspeed * Time.deltaTime * Input.GetAxis("Vertical"), 0f));
         }
@@ -43,26 +45,52 @@ public class CarDrive : MonoBehaviour
     void FixedUpdate()
     {
         grounded = false;
+        turbo = false;
         RaycastHit hit;
 
         if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundray, whatIsGround))
         {
             grounded = true;
 
-            //transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
-            //transform.rotation = Quaternion.Lerp(transform.up, hit.transform.up, rotationDamp*Time.deltaTime); 
             Quaternion rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationDamp*Time.deltaTime); 
         }
+
+        else if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundray, whatIsTurbo))
+        {
+            turbo = true;
+
+            Quaternion rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationDamp*Time.deltaTime); 
+        }
+
         if (grounded)
         {
             rb.drag = dragonground;
+            if (boost > 0){
+                Forwardaccel = accelvar * boostpower;
+                boost = boost - Time.deltaTime;
+            }
+            else {
+            Forwardaccel = accelvar;
+            }
+            if(Mathf.Abs(speedinput) > 0)
+            {
+                rb.AddForce(transform.forward * speedinput);
+            }
+        }
+        else if (turbo)
+        {
+            rb.drag = dragonground;
+            Forwardaccel = accelvar * boostpower;
+            boost = boostDuration;
 
             if(Mathf.Abs(speedinput) > 0)
             {
                 rb.AddForce(transform.forward * speedinput);
             }
         }
+
         else
         {
             rb.drag = 0.1f;

@@ -8,6 +8,6 @@ public class checkpoincounter : MonoBehaviour
     
 
     void OnTriggerEnter(Collider other) {
-        checkpoint = 1f;
+        checkpoint = 1;
     }
 }
