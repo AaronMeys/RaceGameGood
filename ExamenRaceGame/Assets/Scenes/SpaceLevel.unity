@@ -27694,13 +27694,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 820777706}
-  Forwardaccel: 6
+  Forwardaccel: 4
   reverseaccel: 2
   maxspeed: 10
   turnspeed: 180
   gravityForce: 10
   dragonground: 3
-  rotationDamp: 7
+  rotationDamp: 3
   speedinput: 0
   turninput: 0
   whatIsGround:
